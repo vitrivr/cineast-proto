@@ -9,6 +9,8 @@ service CineastQuery {
 
     rpc GetMediaSegments (MediaSegmentIdList) returns (MediaSegmentQueryResult);
     rpc GetMediaObjects (MediaObjectIdList) returns (MediaObjectQueryResult);
+    rpc GetMediaSegmentScores (Query) returns (stream SimilarityQueryResult);
+    rpc GetSimilar (Query) returns (stream QueryResult);
 
 }
 
@@ -40,7 +42,8 @@ message QueryId {
 
 message QueryConfig {
     QueryId queryId = 1;
-    //TODO result size, etc.
+    int32 maxResults = 2;
+    repeated string hints = 3;
 }
 
 message MediaSegmentIdScore {
@@ -130,11 +133,31 @@ message QueryResult {
 
 message AudioQueryContainer {
     repeated bytes audioFrames = 1;
-    //TODO
 }
 
 message BooleanQueryContainer {
-    //TODO
+    string attribute = 1;
+
+    enum Operator {
+        EQ = 0;
+        NEQ = 1;
+        GEQ = 2;
+        LEQ = 3;
+        GREATER = 4;
+        LESS = 5;
+        BETWEEN = 6;
+        LIKE = 7;
+        ILIKE = 8;
+        NLIKE = 9;
+        RLIKE = 10;
+        ISNULL = 11;
+        ISNOTNULL = 12;
+        IN = 13;
+    }
+
+    Operator operator = 2;
+
+    repeated string value = 3;
 }
 
 message IdQueryContainer {
@@ -146,23 +169,37 @@ message ImageQueryContainer {
 }
 
 message InstantQueryContainer {
-    //TODO
+    string instant = 1; //TODO better representation?
 }
 
 message LocationQueryContainer {
-    //TODO
+    float longitude = 1;
+    float latitude = 2;
 }
 
 message ModelQueryContainer {
-    //TODO
+    bytes model = 1;
 }
 
 message MotionQueryContainer {
-    //TODO
+
+    repeated MotionPath foregroundPath = 1;
+    repeated MotionPath backgroundPath = 2;
+
+    message MotionPath {
+
+        repeated Point path = 1;
+
+        message Point {
+            float x = 1;
+            float y = 2;
+        }
+    }
 }
 
 message SemanticMapQueryContainer {
-    //TODO
+    bytes image = 1;
+    map<int32, string> concepts = 2;
 }
 
 message TagQueryContainer {
@@ -187,8 +224,10 @@ message QueryContainer {
         TagQueryContainer tagQueryContainer = 10;
         TextQueryContainer textQueryContainer = 11;
     }
+    repeated string category = 20;
+    QueryConfig config = 21;
 }
 
 message Query {
-    //TODO
+    repeated QueryContainer container = 1;
 }
