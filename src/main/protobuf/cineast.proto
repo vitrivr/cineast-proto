@@ -1,0 +1,194 @@
+syntax = "proto3";
+
+package org.vitrivr.cineast.api.grpc;
+
+option java_package = "org.vitrivr.cineast.api.grpc";
+option java_outer_classname = "CineastGrpc";
+
+service CineastQuery {
+
+    rpc GetMediaSegments (MediaSegmentIdList) returns (MediaSegmentQueryResult);
+    rpc GetMediaObjects (MediaObjectIdList) returns (MediaObjectQueryResult);
+
+}
+
+service CineastExtract {
+
+}
+
+message MediaSegmentId {
+    string id = 1;
+}
+
+message MediaSegmentIdList {
+    QueryConfig queryConfig = 1;
+    repeated MediaSegmentId ids = 2;
+}
+
+message MediaObjectId {
+    string id = 1;
+}
+
+message MediaObjectIdList {
+    QueryConfig queryConfig = 1;
+    repeated MediaObjectId ids = 2;
+}
+
+message QueryId {
+    string id = 1;
+}
+
+message QueryConfig {
+    QueryId queryId = 1;
+    //TODO result size, etc.
+}
+
+message MediaSegmentIdScore {
+    MediaSegmentId id = 1;
+    double score = 2;
+}
+
+message MediaSegment {
+    MediaSegmentId segmentId = 1;
+    MediaObjectId objectId = 2;
+    int32 start = 3;
+    int32 end = 4;
+    int32 number = 5;
+    float startAbs = 6;
+    float endAbs = 7;
+}
+
+message MediaObject {
+    MediaObjectId objectId = 1;
+    string name = 2;
+    string path = 3;
+
+    enum MediaType {
+        VIDEO = 0;
+        IMAGE = 1;
+        AUDIO = 2;
+        MODEL_3D = 3;
+        IMAGE_SEQUENCE = 4;
+        UNKNOWN = 99;
+    }
+
+    MediaType type = 4;
+
+    string contentUrl = 5;
+}
+
+message MediaSegmentMetaData {
+    MediaSegmentId segmentId = 1;
+    string domain = 2;
+    string key = 3;
+    string value = 4;
+}
+
+message MediaObjectMetaData {
+    MediaObjectId objectId = 1;
+    string domain = 2;
+    string key = 3;
+    string value = 4;
+}
+
+message SimilarityQueryResult {
+    QueryId queryId = 1;
+    string category = 2;
+    repeated MediaSegmentIdScore results = 3;
+}
+
+message MediaSegmentQueryResult {
+    QueryId queryId = 1;
+    repeated MediaSegment segments = 2;
+}
+
+message MediaObjectQueryResult {
+    QueryId queryId = 1;
+    repeated MediaObject objects = 2;
+}
+
+message MediaSegmentMetaDataQueryResult {
+    QueryId queryId = 1;
+    repeated MediaSegmentMetaData segmentMetaData = 2;
+}
+
+message MediaObjectMetaDataQueryResult {
+    QueryId queryId = 1;
+    repeated MediaObjectMetaData objectMetaData = 2;
+}
+
+message QueryResult {
+    oneof result {
+        SimilarityQueryResult similarityQueryResult = 1;
+        MediaSegmentQueryResult mediaSegmentQueryResult = 2;
+        MediaObjectQueryResult mediaObjectQueryResult = 3;
+        MediaSegmentMetaDataQueryResult mediaSegmentMetaDataQueryResult = 4;
+        MediaObjectMetaDataQueryResult mediaObjectMetaDataQueryResult = 5;
+    }
+}
+
+
+message AudioQueryContainer {
+    repeated bytes audioFrames = 1;
+    //TODO
+}
+
+message BooleanQueryContainer {
+    //TODO
+}
+
+message IdQueryContainer {
+    MediaSegmentId segmentId = 1;
+}
+
+message ImageQueryContainer {
+    bytes image = 1;
+}
+
+message InstantQueryContainer {
+    //TODO
+}
+
+message LocationQueryContainer {
+    //TODO
+}
+
+message ModelQueryContainer {
+    //TODO
+}
+
+message MotionQueryContainer {
+    //TODO
+}
+
+message SemanticMapQueryContainer {
+    //TODO
+}
+
+message TagQueryContainer {
+    //TODO
+}
+
+message TextQueryContainer {
+    string text = 1;
+}
+
+message QueryContainer {
+    oneof container {
+        AudioQueryContainer audioQueryContainer = 1;
+        BooleanQueryContainer booleanQueryContainer = 2;
+        IdQueryContainer idQueryContainer = 3;
+        ImageQueryContainer imageQueryContainer = 4;
+        InstantQueryContainer instantQueryContainer = 5;
+        LocationQueryContainer locationQueryContainer = 6;
+        ModelQueryContainer modelQueryContainer = 7;
+        MotionQueryContainer motionQueryContainer = 8;
+        SemanticMapQueryContainer semanticMapQueryContainer = 9;
+        TagQueryContainer tagQueryContainer = 10;
+        TextQueryContainer textQueryContainer = 11;
+    }
+}
+
+message Query {
+    //TODO
+}
