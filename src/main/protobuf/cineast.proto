@@ -56,7 +56,7 @@ message MediaSegment {
     MediaObjectId objectId = 2;
     int32 start = 3;
     int32 end = 4;
-    int32 number = 5;
+    int32 sequenceNumber = 5;
     float startAbs = 6;
     float endAbs = 7;
 }
