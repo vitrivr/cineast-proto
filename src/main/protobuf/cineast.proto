@@ -223,7 +223,7 @@ message MotionQueryContainer {
 
 message SemanticMapQueryContainer {
     bytes image = 1;
-    map<int32, string> concepts = 2;
+    map<string, string> concepts = 2;
 }
 
 message TagQueryContainer {
