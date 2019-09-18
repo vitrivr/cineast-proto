@@ -132,10 +132,23 @@ message QueryResult {
 
 
 message AudioQueryContainer {
-    repeated bytes audioFrames = 1;
+    repeated AudioFrame audioFrames = 1;
+}
+
+message AudioFrame {
+    bytes data = 1;
+    int64 idx = 2;
+    int64 timestamp = 3;
+    float samplingRate = 4;
+    int32 channels = 5;
+    int64 duration = 6;
 }
 
 message BooleanQueryContainer {
+    repeated BooleanExpression expressions = 1;
+}
+
+message BooleanExpression {
     string attribute = 1;
 
     enum Operator {
@@ -157,7 +170,18 @@ message BooleanQueryContainer {
 
     Operator operator = 2;
 
-    repeated string value = 3;
+    repeated PrimitiveType values = 3;
+}
+
+message PrimitiveType {
+    oneof value {
+        string stringValue = 1;
+        int32 intValue = 2;
+        int64 longValue = 3;
+        float floatValue = 4;
+        double doubleValue = 5;
+        bool booleanValue = 6;
+    }
 }
 
 message IdQueryContainer {
