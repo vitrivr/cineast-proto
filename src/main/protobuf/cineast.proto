@@ -210,7 +210,7 @@ message TextQueryContainer {
     string text = 1;
 }
 
-message QueryContainer {
+message QueryTerm {
     oneof container {
         AudioQueryContainer audioQueryContainer = 1;
         BooleanQueryContainer booleanQueryContainer = 2;
@@ -226,8 +226,9 @@ message QueryContainer {
     }
     repeated string category = 20;
     QueryConfig config = 21;
+    float weight = 22;
 }
 
 message Query {
-    repeated QueryContainer container = 1;
+    repeated QueryTerm terms = 1;
 }
