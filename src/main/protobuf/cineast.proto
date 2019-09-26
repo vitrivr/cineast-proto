@@ -11,11 +11,22 @@ service CineastQuery {
     rpc GetMediaObjects (MediaObjectIdList) returns (MediaObjectQueryResult);
     rpc GetMediaSegmentScores (Query) returns (stream SimilarityQueryResult);
     rpc GetSimilar (Query) returns (stream QueryResult);
+    rpc GetNeighboringSegments (MediaSegmentIdList) returns (MediaSegmentQueryResult);
 
 }
 
 service CineastExtract {
 
+}
+
+service CineastManage {
+
+    rpc Ping (TimeStamp) returns (TimeStamp);
+
+}
+
+message TimeStamp {
+    int64 timestamp = 1;
 }
 
 message MediaSegmentId {
