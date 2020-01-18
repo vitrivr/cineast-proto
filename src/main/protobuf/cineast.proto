@@ -264,6 +264,11 @@ message QueryTerm {
     float weight = 22;
 }
 
-message Query {
+message QueryStage {
     repeated QueryTerm terms = 1;
+    QueryConfig config = 2;
+}
+
+message Query {
+    repeated QueryStage stages = 1;
 }
