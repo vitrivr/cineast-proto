@@ -10,7 +10,7 @@ service CineastQuery {
     rpc GetMediaSegments (MediaSegmentIdList) returns (MediaSegmentQueryResult);
     rpc GetMediaObjects (MediaObjectIdList) returns (MediaObjectQueryResult);
     rpc GetMediaSegmentScores (Query) returns (stream SimilarityQueryResult);
-    rpc GetSimilar (Query) returns (stream QueryResult);
+    rpc GetSimilar (TemporalQuery) returns (stream QueryResult);
     rpc GetNeighboringSegments (MediaSegmentIdList) returns (MediaSegmentQueryResult);
 
 }
@@ -271,4 +271,9 @@ message QueryStage {
 
 message Query {
     repeated QueryStage stages = 1;
+	QueryConfig config = 2;
+}
+
+message TemporalQuery {
+	repeated Query query = 1;
 }
