@@ -1,5 +1,5 @@
 plugins {
-    id "com.google.protobuf" version "0.8.14"
+    id "com.google.protobuf" version "0.8.17"
 }
 
 group 'org.vitrivr'
@@ -92,11 +92,11 @@ protobuf {
     generatedFilesBaseDir = "$projectDir/build/generated/source/proto"
     plugins {
         grpc {
-            artifact = 'io.grpc:protoc-gen-grpc-java:1.33.1'
+            artifact = "io.grpc:protoc-gen-grpc-java:$version_grpc"
         }
     }
     protoc {
-        artifact = 'com.google.protobuf:protoc:3.14.0'
+        artifact = "com.google.protobuf:protoc:$version_protobuf"
     }
     generateProtoTasks {
         all()*.plugins { grpc {
@@ -107,7 +107,10 @@ protobuf {
 
 dependencies {
     /////// gRPC & Protobuf
-    compile group: 'javax.annotation', name: 'javax.annotation-api', version: '1.2'
-    compile group: 'com.google.protobuf', name: 'protobuf-java', version: '3.14.0'
-    compile group: 'io.grpc', name: 'grpc-all', version: '1.33.1'
+    implementation group: 'com.google.protobuf', name: 'protobuf-java', version: version_protobuf
+    implementation group: 'io.grpc', name: 'grpc-netty-shaded', version: version_grpc
+    implementation group: 'io.grpc', name: 'grpc-protobuf', version: version_grpc
+    implementation group: 'io.grpc', name: 'grpc-stub', version: version_grpc
+    implementation group: 'javax.annotation', name: 'javax.annotation-api', version: '1.2'
+    compileOnly group: 'org.apache.tomcat', name: 'tomcat-annotations-api', version: version_annotations
 }
