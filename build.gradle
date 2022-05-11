@@ -1,9 +1,9 @@
 plugins {
-    id "com.google.protobuf" version "0.8.17"
+    id "com.google.protobuf" version "0.8.18"
 }
 
 group 'org.vitrivr'
-version '0.1.1'
+version '0.1.2'
 
 apply plugin: 'com.google.protobuf'
 apply plugin: 'idea'
@@ -17,8 +17,8 @@ repositories {
     maven { url "https://kotlin.bintray.com/kotlinx" }
 }
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+sourceCompatibility = 17
+targetCompatibility = 17
 
 java {
     withJavadocJar()
